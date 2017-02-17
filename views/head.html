@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        .mission_board {
+            font-size: 14px;
+            font-family: "微软雅黑";
+            font-weight: bold;
+            color: #4C4C4C;
+            cursor: default;
+            background-color: #eaeaea;
+        }
+
+        .mission_board> div> img {
+            max-width: 30px;
+            max-height: 30px;
+        }
+
+        .row {
+            margin-right : 0;
+            margin-left : 0;
+        }
+    </style>
+</head>
+
+<body>
+<div class="row navbar-fixed-top mission_board">
+    <div class="rotation-animation">
+        <button type="button" class="close" ng-click="closeWindow()">&times;</button>
+        <button type="button" class="close" ng-click="minWindow()">-</button>
+    </div>
+    <div  style="-webkit-user-select: none;-webkit-app-region: drag;width:95%">
+        <img src="../public/applogo.ico" alt="Engineer Mate logo" class="img-thumbnail"> TRU - mate
+    </div>
+</div>
+</body>
+
+</html>

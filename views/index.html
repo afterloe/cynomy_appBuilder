@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="creatorApp" ng-controller="creatorAppCtrl">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>App creater</title>
+</head>
+
+<body>
+<!-- #include head html" -->
+<div ng-include="head_html"></div>
+<!-- 占位顶格 -->
+<div style="height: 30px"></div>
+<!-- 页面导航栏 -->
+<div class="row">
+    <h4 class="pull-left">
+        <span class="label"><img src="../public/images/home_32px.png"/></span>
+        <span ng-repeat="button in buttonList" class="label item" ng-class="{'click' : button.isClick}" ng-click="executeButton(button.key, button)">
+            <span class="glyphicon {{button.icon}}"></span> &nbsp; {{button.value}}
+        </span>
+    </h4>
+    <h4 class="pull-right" style="margin-right: 10px;">
+        <span class="label label-default item" ng-click="importSource()"><span class="glyphicon glyphicon-plus"></span> &nbsp;导入数据源</span>
+    </h4>
+</div>
+<div class="row">
+    <!-- 左侧 -->
+    <div class="col-md-3" ng-controller="UICtrl" ng-hide="status !== 'design'">
+        <div class="editView" ng-style="left_edit">
+            <span class="editTitle">UI控件 <span class="badge">{{UICtrls.length}}</span></span>
+
+            <div>
+                <ul class="nav nav-pills nav-stacked">
+                    <li ng-repeat="ctrl in UICtrls" data-ctrlType="{{ctrl.key}}"
+                        draggable="true" ondragstart="dragUICtrl(event,this)">
+                        <a href="#"><span class="{{ctrl.icon}}"></span> &nbsp;{{ctrl.name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="editView" ng-style="left_edit">
+            <span class="editTitle">属性 <span class="badge">{{attributes.length}}</span></span>
+
+            <div>
+                <table class="table table-bordered table-hover table-condensed table-striped">
+                    <thead>
+                    <tr>
+                        <td>属性</td>
+                        <td>值</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="tr in attributes">
+                        <td>{{tr.key}}</td>
+                        <td ng-dblclick="editCtrlValues(attributes,tr)">
+                            <p ng-if="!tr.isEdit" class="form-control-static">{{tr.value}}</p>
+                            <input ng-if="tr.isEdit" type="text" class="form-control col-md-5" value="{{tr.value}}"
+                                   ng-model="tr.value" ng-blur="editEnd(attributes)"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑区 -->
+    <div ng-class="{'col-md-6' : status === 'design', 'container' : status === 'view'}">
+        <div class="editView" ng-style="center_edit" ondrop="drop(event, this)" ondragover="allowDrop(event,this)"
+             ondragleave="allowLeave(event,this)">
+            <span class="editTitle" ng-hide="status !== 'design'">编辑区</span>
+
+            <div class="col-md-11 editContext" ng-controller="editCtxCtrl">
+                <ng-include src="editCtx"></ng-include>
+            </div>
+
+            <div class="navbar-fixed-bottom" style="padding: 10px;" ng-hide="status !== 'view'">
+                    <input type="button" class="button btn-primary pull-right" value="查看输出结果" ng-click="outPutResult()"/>
+                    <input type="button" class="button btn-danger pull-right" value="返回设计" style="margin-right : 10px;" ng-click="backDesign()"/>
+            </div>
+        </div>
+    </div>
+
+    <!-- 服务 -->
+    <div class="col-md-3" ng-hide="status !== 'design'">
+        <div class="editView" ng-style="right_edit" ng-controller="serviceCtrl"><span class="editTitle">服务 <span
+                class="glyphicon glyphicon-wrench" ng-if="readyChange" ng-click="changeModel()"
+                style="cursor: pointer;"></span></span>
+            <h5 ng-if="readyChange"> 数据源: {{source}}</h5>
+
+            <div class="row" draggable="true" ondragstart="dragBOMTree(event, this)">
+                <h4 ng-repeat="part in bom" class="col-md-offset-{{part.level}}">
+                    <span class="label" ng-click="obtainOptions(bom[$index])"
+                          ng-class="{'label-danger':part.isClick, 'label-info': !part.isClick}">{{part.type}}</span>
+                </h4>
+            </div>
+        </div>
+        <div class="editView" ng-style="right_edit" ng-controller="modelCtrl">
+            <span class="editTitle">{{part}} &nbsp;选项</span>
+
+            <div>
+                <ul class="nav nav-pills nav-stacked">
+                    <li ng-repeat="option in options" draggable="true" data-optionType="{{option}}"
+                        data-modelType="{{part}}"
+                        ondragstart="dragOption(event,this)">
+                        <a href="#"><span class="glyphicon glyphicon-cog"></span>{{option}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="editView" ng-style="right_edit" ng-controller="funCtrl">
+            <span class="editTitle">方法</span>
+
+            <div>
+                <ul class="nav nav-pills nav-stacked">
+                    <li ng-repeat="fun in functions" draggable="true" ondragstart="dragFunction(event,this)"
+                        data-function-name="{{fun}}">
+                        <a href="#"><span class="glyphicon glyphicon-random"></span> &nbsp;{{fun}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="../public/stylesheets/lib/Bootstrap.min.css">
+<link rel="stylesheet" href="../public/stylesheets/base.css">
+<link rel="stylesheet" href="../public/stylesheets/index.css">
+
+<script type="text/javascript" src="../public/javascripts/angular.min.js"></script>
+<script type="text/javascript" src="../public/javascripts/angular-animate.min.js"></script>
+<script type="text/javascript" src="../public/javascripts/ui-bootstrap-tpls-1.3.3.min.js"></script>
+<script type="text/javascript" src="../controller/index.js"></script>
+</body>
+
+</html>

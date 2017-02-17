@@ -1,0 +1,25 @@
+{
+  "name": "tru_appcreater",
+  "version": "0.0.1",
+  "description": "应用创建器，使用组件和数据源可以组装成新的app",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron index.js",
+    "test": "mocha test/*_test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@gitlab.jwis.cn/mateGrp/TRU_appCenter.git"
+  },
+  "keywords": [
+    "app",
+    "creater",
+    "TRU"
+  ],
+  "author": "afterloe<afterloeliu@jwis.cn>",
+  "license": "ISC",
+  "dependencies": {
+    "electron-prebuilt": "^1.3.1",
+    "node-xlsx": "^0.7.1"
+  }
+}

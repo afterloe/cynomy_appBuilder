@@ -1,0 +1,208 @@
+<div ng-repeat="ctrl in ctrlList" ng-switch="ctrl.type">
+    <!-- Text-Field-UICtrl -->
+    <div class="form-group" ng-switch-when="Text-Field-UICtrl" data-ctrl-id="{{ctrl.id}}"
+         ondrop="bindServer(event, this)" ondragover="allowDrop(event)" ng-click="showAttribute(ctrl)">
+        <label for="{{ctrl.id}}">{{ctrl.label}}</label>
+        <input type="text" class="form-control col-md-5" id="{{ctrl.id}}" placeholder="{{ctrl.synopsis}}"
+               ng-model="ctrl.value" value="{{ctrl.value}}"/>
+    </div>
+
+    <!-- DropList UICtrl-->
+    <div class="form-group" ng-switch-when="DropList-UICtrl" data-ctrl-id="{{ctrl.id}}"
+         ondrop="bindServer(event, this)" ng-click="showAttribute(ctrl)">
+        <label for="{{ctrl.id}}">{{ctrl.label}}</label>
+        <select id="{{ctrl.id}}" class="form-control" ng-model="ctrl.value"
+                ng-options="o as o for o in ctrl.data"></select>
+    </div>
+
+    <!-- CheckBox UICtrl -->
+    <div class="form-group" ng-switch-when="CheckBox-UICtrl-horizontal" data-ctrl-id="{{ctrl.id}}"
+         ondrop="bindServer(event, this)" ng-click="showAttribute(ctrl)">
+        <label>{{ctrl.label}}</label>
+
+        <div class="checkbox" ng-click="selectValue(ctrl)">
+            <label ng-repeat="item in ctrl.data">
+                <input type="checkbox" value="item.value" ng-model="item.value"/> {{item.name}}
+            </label>
+        </div>
+    </div>
+    <div class="form-group" ng-switch-when="CheckBox-UICtrl-vertical" data-ctrl-id="{{ctrl.id}}"
+         ondrop="bindServer(event, this)" ng-click="showAttribute(ctrl)">
+        <label>{{ctrl.label}}</label>
+
+        <div class="checkbox" ng-repeat="item in ctrl.data" ng-click="selectValue(ctrl)">
+            <label>
+                <input type="checkbox" value="item.value" ng-model="item.value"/> {{item.name}}
+            </label>
+        </div>
+    </div>
+
+    <!-- Radio Button UICtrl -->
+    <div class="form-group" ng-switch-when="Radio-Button-UICtrl-horizontal" data-ctrl-id="{{ctrl.id}}"
+         ondrop="bindServer(event, this)" ng-click="showAttribute(ctrl)">
+        <label>{{ctrl.label}}</label>
+
+        <div class="radio">
+            <label class="radio-inline" ng-repeat="item in ctrl.data">
+                <input type="radio" name="{{ctrl.label}}" id="{{item.id}}" value="{{item.name}}" ng-model="ctrl.value"/>
+                {{item.name}}
+            </label>
+        </div>
+    </div>
+    <div class="form-group" ng-switch-when="Radio-Button-UICtrl-vertical" data-ctrl-id="{{ctrl.id}}"
+         ondrop="bindServer(event, this)" ng-click="showAttribute(ctrl)">
+        <label>{{ctrl.label}}</label>
+
+        <div class="radio" ng-repeat="item in ctrl.data">
+            <label>
+                <input type="radio" name="{{ctrl.label}}" id="{{item.id}}" value="{{item.name}}" ng-model="ctrl.value"/>
+                {{item.name}}
+            </label>
+        </div>
+    </div>
+
+    <!-- Label UICtrl -->
+    <h3 ng-switch-when="Label-UICtrl" data-ctrl-id="{{ctrl.id}}" ondrop="bindServer(event, this)"
+        ng-click="showAttribute(ctrl)"><span
+            class="label label-default">{{ctrl.label}}</span></h3>
+
+    <!-- Button UICtrl -->
+    <button ng-switch-when="Button-UICtrl" class="btn btn-default" data-ctrl-id="{{ctrl.id}}"
+            ondrop="bindServer(event, this)" ng-click="showAttribute(ctrl)">{{ctrl.label}}
+    </button>
+
+    <!-- Table UICtrl -->
+    <div ng-switch-when="Table-UICtrl" data-ctrl-id="{{ctrl.id}}" ondrop="bindServer(event, this)"
+         ng-click="showAttribute(ctrl)">
+        <label>{{ctrl.label}}</label>
+        <table class="table table-bordered table-hover table-condensed table-striped">
+            <thead>
+            <tr>
+                <td ng-repeat="th in ctrl.labels track by $index">{{th}}</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="tr in ctrl.datas track by $index" ng-class="{'success' : tr.isSelect}"
+                ng-click="selectItem(ctrl, tr)">
+                <td ng-repeat="td in tr track by $index">{{td}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Tree UICtrl -->
+    <div ng-switch-when="Tree-UICtrl">
+        <ul class="nav nav-pills nav-stacked tree">
+            <li ng-repeat="subTab in ctrl.tabList track by $index" data-tab-id="{{subTab.id}}"
+                data-tab-partType="{{subTab.label}}" ondrop="dropTree(event, this)">
+                <h5 href="#" class="col-md-offset-{{subTab.level}} part-simple" style="text-align: left;">
+                    {{subTab.label}}
+                            <span class="pull-right" ng-click="subTab.isClick = !subTab.isClick"
+                                  ng-class="{'glyphicon glyphicon-chevron-up' : !subTab.isClick, 'glyphicon glyphicon-chevron-down' : subTab.isClick}"
+                                  style="cursor: pointer;"></span>
+                </h5>
+
+                <div ng-hide="subTab.isClick" ng-repeat="subCtrl in subTab.subCtrlList track by $index"
+                     ng-switch="subCtrl.type" style="text-align: left;" ng-click="showAttribute(subCtrl)">
+
+                    <div ng-switch-when="Text-Field-UICtrl" data-ctrl-id="{{subCtrl.id}}" data-tab-id="{{subTab.id}}"
+                         ondrop="bindTreeSubTabServer(event, this)">
+                        <label for="{{subCtrl.id}}">{{subCtrl.label}}</label>
+                        <input type="text" class="form-control col-md-5" id="{{subCtrl.id}}"
+                               placeholder="{{subCtrl.synopsis}}"
+                               ng-change="executeExamination(subTab)" ng-model="subCtrl.value"
+                               value="{{subCtrl.value}}"/>
+                    </div>
+
+                    <div ng-switch-when="DropList-UICtrl" data-ctrl-id="{{subCtrl.id}}" data-tab-id="{{subTab.id}}"
+                         ondrop="bindTreeSubTabServer(event, this)">
+                        <label for="{{subCtrl.id}}">{{subCtrl.label}}</label>
+                        <select id="{{subCtrl.id}}" class="form-control" ng-model="subCtrl.value"
+                                ng-change="executeExamination(subTab)"
+                                ng-options="subO as subO for subO in subCtrl.data"></select>
+                    </div>
+
+                    <div ng-switch-when="Label-UICtrl" data-ctrl-id="{{subCtrl.id}}" data-tab-id="{{subTab.id}}"
+                         ondrop="bindTreeSubTabServer(event, this)">
+                        <h3><span class="label label-default">{{subCtrl.label}}</span></h3>
+                    </div>
+
+                    <div ng-switch-when="Button-UICtrl" data-ctrl-id="{{subCtrl.id}}" data-tab-id="{{subTab.id}}"
+                         ondrop="bindTreeSubTabServer(event, this)">
+                        <button class="btn btn-default" data-ctrl-id="{{subCtrl.id}}">{{subCtrl.label}}</button>
+                    </div>
+
+                    <div ng-switch-when="CheckBox-UICtrl-horizontal" data-ctrl-id="{{subCtrl.id}}"
+                         data-tab-id="{{subTab.id}}"
+                         ondrop="bindTreeSubTabServer(event, this)">
+                        <label>{{subCtrl.label}}</label>
+
+                        <div class="checkbox-group" ng-click="selectValue(subCtrl)">
+                            <label ng-repeat="item in subCtrl.data track by $index">
+                                <input type="checkbox" value="item.value" ng-model="item.value"
+                                       ng-change="executeExamination(subTab)"/> {{item.name}}
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-switch-when="CheckBox-UICtrl-vertical" data-ctrl-id="{{subCtrl.id}}"
+                         data-tab-id="{{subTab.id}}"
+                         ondrop="bindTreeSubTabServer(event, this)">
+                        <label>{{subCtrl.label}}</label>
+
+                        <div class="checkbox" ng-repeat="item in subCtrl.data track by $index"
+                             ng-click="selectValue(subCtrl)">
+                            <label>
+                                <input type="checkbox" value="item.value" ng-model="item.value"
+                                       ng-change="executeExamination(subTab)"/> {{item.name}}
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-switch-when="Radio-Button-UICtrl-horizontal" data-ctrl-id="{{subCtrl.id}}"
+                         data-tab-id="{{subTab.id}}"
+                         ondrop="bindTreeSubTabServer(event, this)">
+                        <label>{{subCtrl.label}}</label>
+
+                        <div class="radio-group">
+                            <label class="radio-inline" ng-repeat="item in subCtrl.data track by $index">
+                                <input type="radio" ng-change="executeExamination(subTab)" name="{{subCtrl.label}}"
+                                       id="{{item.id}}" value="{{item.name}}" ng-model="subCtrl.value"/>
+                                {{item.name}}
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-switch-when="Radio-Button-UICtrl-vertical" data-ctrl-id="{{subCtrl.id}}"
+                         data-tab-id="{{subTab.id}}"
+                         ondrop="bindTreeSubTabServer(event, this)">
+                        <label>{{subCtrl.label}}</label>
+
+                        <div class="radio" ng-repeat="item in subCtrl.data track by $index">
+                            <label>
+                                <input type="radio" name="{{subCtrl.label}}" id="{{item.id}}"
+                                       ng-change="executeExamination(subTab)"
+                                       value="{{item.name}}" ng-model="subCtrl.value"/>
+                                {{item.name}}
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-switch-when="Table-UICtrl" data-ctrl-id="{{subCtrl.id}}" data-tab-id="{{subTab.id}}"
+                         ondrop="bindTreeSubTabServer(event, this)">
+                        <label for="{{subCtrl.id}}">可用 {{subTab.label}}</label>
+                        <table class="table table-bordered table-hover table-condensed table-striped">
+                            <thead>
+                                <tr>
+                                    <td ng-repeat="th in subCtrl.labels track by $index">{{th}}</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="tr in subCtrl.datas track by $index" ng-class="{'success' : tr.isSelect}"
+                                    ng-click="selectValue(subCtrl, tr, subTab)">
+                                    <td ng-repeat="td in tr track by $index">{{td}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

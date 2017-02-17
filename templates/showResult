@@ -1,0 +1,14 @@
+    <div class="modal-header">
+        <h3 class="modal-title">{{title}}</h3>
+    </div>
+    <div class="modal-body">
+        <div ng-repeat="pr in result">
+              <label>{{pr.name}}</label>
+              <p ng-if="pr.value">{{pr.value}}</p>
+              <p ng-if="!pr.value">未选择内容</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">确认</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+    </div>

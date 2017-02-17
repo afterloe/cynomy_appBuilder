@@ -1,0 +1,80 @@
+.homeItem {
+    width: 33px;
+    height: 32px;
+    display: inline-block;
+    background-image: url("../images/home_32px.png");
+}
+
+/*导航*/
+.item {
+    font-size: 16px;
+    background: #8ec2f5;
+}
+
+/*当导航被选中*/
+.click {
+    background: #065fb9;
+}
+
+/*导航鼠标经过*/
+.item:hover {
+    cursor: pointer;
+    background: rgba(28, 40, 89, 1.0);
+}
+
+/*编辑区*/
+.editView {
+    border-style: solid;
+    border-color: #BEC0C2;
+    border-width: 1px;
+    border-radius: 5px;
+    padding: 0;
+    margin-bottom: 5px;
+    height: auto;
+    background: #F0F0F0;
+    overflow: auto;
+}
+
+.editView:hover {
+    border-color: rgba(28, 40, 89, 1.0);
+}
+
+/*编辑区标题*/
+.editTitle {
+    height: 35px;
+    text-align: center;
+    display: block;
+    line-height: 35px;
+    color: #4C4C4C;
+    background: #E6E8EB;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+li {
+    text-align: center;
+    font-size: 14px;
+}
+
+.nav > li > a:focus, .nav > li > a:hover {
+    text-decoration: none;
+    background-color: #d6e9fc;
+    cursor: pointer;
+}
+
+.part-simple {
+    color: #337ab7;
+    line-height: 30px;
+    text-decoration: none;
+    background-color: transparent;
+    text-align: left;
+}
+
+.part-simple:hover {
+    color:rgba(26,21,43,1.0);
+    background-color: #e8eef7;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}

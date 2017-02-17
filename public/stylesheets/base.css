@@ -1,0 +1,42 @@
+@charset "utf-8";
+ol,ul{ list-style:none;}
+/*,"Times New Roman", Times, serif,"宋体"*/
+body{
+    font-family:"微软雅黑","Microsoft YaHei";
+    background-color: #f5f5f5;
+    position: relative;
+}
+
+*{
+    cursor:default;
+    //禁用文本选择
+    -moz-user-select:none;
+    -webkit-user-select:none;
+    user-select:none;
+}
+
+#globalPrompt{
+    position: absolute;
+    width: 246px;
+    height: 51px;
+    margin: 0 auto;
+    top: 450px;
+    left: 71px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: #6e6e6e;
+    color: #ffffff;
+    border: 1px solid #666666;
+    text-align: center;
+    line-height: 49px;
+    -webkit-box-shadow: 0 0  9px  rgba(86,79,79,.75);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 5px;
+}

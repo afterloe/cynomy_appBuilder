@@ -1,0 +1,46 @@
+{
+  "icon": "applogo.ico",
+  "name": "TRU mate",
+  "frame": {
+    "mainFrameWindow": {
+      "width": "auto",
+      "height": "auto",
+      "x": "auto",
+      "y": "auto",
+      "resizable": false,
+      "movable": false,
+      "alwaysOnTop": true,
+      "frame": false,
+      "title": "TRU Engineer White",
+      "useContentSize": true,
+      "scrollBounce": true,
+      "darkTheme": true,
+      "debug": false
+    },
+    "contextFrameWindow": {
+      "width": "auto",
+      "height": "auto",
+      "frame": false,
+      "resizable": false,
+      "title": "TRU Engineer White - ",
+      "useContentSize": true,
+      "darkTheme": true,
+      "debug": false
+    },
+    "msgNoticeWindow": {
+      "width": "auto",
+      "height": "auto",
+      "x": "auto",
+      "y": "auto",
+      "frame": false,
+      "resizable": false,
+      "title": "TRU Msg - ",
+      "resizable": false,
+      "movable": false,
+      "alwaysOnTop": true,
+      "useContentSize": true,
+      "darkTheme": true,
+      "debug": false
+    }
+  }
+}
