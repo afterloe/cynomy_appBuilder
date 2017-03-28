@@ -5,7 +5,16 @@
  * @version 1.0.0
  */
 const path = require("path");
-const [lib, ChildExec, creater] = [require(path.join(__dirname, "..", "lib")), require('child_process'), require(path.join(__dirname, "appCreater"))];
+const [
+  lib,
+  ChildExec,
+  creater
+] =
+[
+  require(path.join(__dirname, "..", "lib")),
+  require('child_process'),
+  require(path.join(__dirname, "appCreater"))
+];
 
 let app, dialog, BrowserWindow;
 

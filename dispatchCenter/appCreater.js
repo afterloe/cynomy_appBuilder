@@ -158,6 +158,9 @@ function queryInfluences(subTab) {
         $scope.enableExecuteExamination = true;
         $scope.ctrlList = uiCtrl.data;
 
+        $scope.name = "";
+        $scope.reason = "";
+
         $scope.outPutResult = () => {
             let result,show = new Array();
             uiCtrl.data.map(ctrl => {
@@ -172,6 +175,11 @@ function queryInfluences(subTab) {
             });
             alert(JSON.stringify(show));
         };
+
+        $scope.postAbsence = () => {
+          alert("SUCCESS");
+        };
+
         $scope.executeExamination = subTab => {
             let result = findDataTable.call(subTab);
             if (-1 === result.dataTableIndex) return;

@@ -1,5 +1,5 @@
 /**
- * Created by afterloe on 8/6/2016.
+ * Created by afterloe on 2017/3/27.
  */
 const path = require("path"), fs = require("fs");
 
@@ -124,12 +124,18 @@ module.exports.use = app => {
 
         $scope.$on("saveProgram", () => {
             // 1） 保存数据模型
-            fs.writeFileSync("C:/Users/Administrator/Desktop/data.tru", JSON.stringify($dataService.getData()));
-            fs.writeFileSync("C:/Users/Administrator/Desktop/ov.tru", JSON.stringify($dataService.getOptionValue()));
+            const home = process.env.HOME;
+            fs.writeFileSync(path.resolve(home, "Desktop", "data.tru"), JSON.stringify($dataService.getData()));
+            fs.writeFileSync(path.resolve(home, "Desktop", "ov.tru"), JSON.stringify($dataService.getOptionValue()));
             // 2） 保存UI控件
-            fs.writeFileSync("C:/Users/Administrator/Desktop/uiCtrl.tru", JSON.stringify($editService.getEditList()));
+            fs.writeFileSync(path.resolve(home, "Desktop", "uiCtrl.tru"), JSON.stringify($editService.getEditList()));
             // 3） 将保存的数据模型和UI控件 生成app
-            Utilities.reader.saveWebPage("C:/Users/Administrator/Desktop/data.tru", "C:/Users/Administrator/Desktop/ov.tru", "C:/Users/Administrator/Desktop/uiCtrl.tru", "C:/Users/Administrator/Desktop/app.html");
+            Utilities.reader.saveWebPage(
+              path.resolve(home, "Desktop", "data.tru"),
+              path.resolve(home, "Desktop", "ov.tru"),
+              path.resolve(home, "Desktop", "uiCtrl.tru"),
+              path.resolve(home, "Desktop", "app.html")
+            );
         });
 
         // 通知属性框刷新控件属性

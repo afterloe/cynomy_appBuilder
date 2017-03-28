@@ -21,7 +21,7 @@ function readyApp() {
     lib.windowHelper.setWindowIcon();
     lib.windowHelper.createContextFrameWindow({
         url: `file://${path.join(__dirname, "views", "index.html")}`,
-        title: "你好世界"
+        title: "jwi builder"
     });
     lib.trayHelper.createTray({
         callback: () => {
@@ -39,4 +39,3 @@ app.on("window-all-closed", () => {
 app.on("activate", () => {
     if (null === app) readyApp();
 });
-

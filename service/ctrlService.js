@@ -37,6 +37,14 @@ let ctrlList = [
         icon: "glyphicon glyphicon-sound-stereo",
         key: "Button-UICtrl",
         name: "Button"
+    }, {
+        icon: "glyphicon glyphicon-superscript",
+        key: "Button-TextArea",
+        name: "TextArea"
+    }, {
+        icon: "glyphicon glyphicon-console",
+        key: "Button-TextField",
+        name: "TextField"
     }];
 
 let buttonList = [

@@ -1,13 +1,40 @@
 /**
- * Created by afterloe on 8/6/2016.
+ * Created by afterloe on 2017/3/27.
  */
 let editList = new Array(), treeSubEditList;
 
+/**
+ * 构建TextField
+ */
+function buildField(ctrlKey, ctrl) {
+  if ("Button-TextField" === ctrlKey) {
+    ctrl.labels = "请编辑提示label";
+    return ctrl;
+  }
+
+  return null;
+}
+
+/**
+ * 构建TextArea
+ *
+ * @param  {[type]} ctrlKey [description]
+ * @param  {[type]} ctrl    [description]
+ * @return [type]           [description]
+ */
+function buildTextArea(ctrlKey, ctrl) {
+  if ("Button-TextArea" === ctrlKey) {
+      return ctrl;
+  }
+  return buildField(ctrlKey, ctrl);
+};
+
 function buildButton(ctrlKey, ctrl) {
+    console.log(ctrlKey);
     if ("Button-UICtrl" === ctrlKey) {
         return ctrl;
     }
-    return null;
+    return buildTextArea(ctrlKey, ctrl);
 };
 
 function buildTable(ctrlKey, ctrl) {
@@ -98,7 +125,6 @@ function pushItem(ctrlKey) {
     return editList;
 };
 
-// TODO
 function reBuildButton(ctrl, object) {
     if ("Button-UICtrl" === ctrl.type) {
         return ctrl;

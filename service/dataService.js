@@ -1,10 +1,10 @@
 /**
- * Created by afterloe on 2016/8/4.
+ * Created by afterloe on 2017/3/27.
  *
  * @mail afterloeliu@jwis.cn
  * @version 1.0.0
  */
-const [fs, path, Xlsx] = [require("fs"), require("path"), require("node-xlsx")];
+const [fs, path, Xlsx, http] = [require("fs"), require("path"), require("node-xlsx"), require("http")];
 let DATA, OPTIONVALUE, NAME, MODEL, BOM;
 
 function values() {
@@ -58,17 +58,85 @@ function assemblyData(table, name) {
             d.push(obj);
         });
         DATA = d;
-    } else
-        return assemblyOptionValue(table, table.name);
+    } else {
+      return assemblyOptionValue(table, table.name);
+    }
 };
 
+// 从云端读取数据
+function readCloud(path, type) {
+  if ("cloud" !== type) {
+    return null;
+  }
+  MODEL = path;
+  DATA = [{
+    BOM:"0",
+    机型:"风管机",
+    产品类型: "创建请假流程",
+    "*URL": "office/absence",
+    "*METHOD": "POST",
+    "*CODE": "create",
+  }, {
+    BOM:"0",
+    机型:"风管机",
+    产品类型: "启动流程实例",
+    "*URL": "workflow/workflow-instance",
+    "*METHOD": "POST",
+    "*CODE": "start",
+  }, {
+    BOM:"0",
+    机型:"风管机",
+    产品类型: "流程审批",
+    "*URL": "workflow/workflow-instance",
+    "*METHOD": "POST",
+    "*CODE": "approval",
+  }, {
+    BOM:"0",
+    机型:"风管机",
+    产品类型: "待审批事项",
+    "*URL": "workflow/workflow-instance",
+    "*METHOD": "POST",
+    "*CODE": "myTask",
+  }, {
+    BOM:"0",
+    机型:"风管机",
+    产品类型: "获取流程实例信息",
+    "*URL": "workflow/workflow-instance",
+    "*METHOD": "POST",
+    "*CODE": "detail",
+  }, {
+    BOM:"0",
+    机型:"风管机",
+    产品类型: "获取流程模板详情",
+    "*URL": "workflow/workflow",
+    "*METHOD": "GET",
+    "*CODE": "detail",
+  }, {
+    BOM:"0",
+    机型:"风管机",
+    产品类型: "创建流程模板",
+    "*URL": "workflow/workflow",
+    "*METHOD": "POST",
+    "*CODE": "create",
+  }];
+
+  return {name: MODEL, data: DATA};
+}
+
 // 从Excel 2007中读取数据
-function readExcel(path) {
-    if (!fs.existsSync(path)) return;
+function readExcel(path, type) {
+    if ("xlsx" !== type) {
+      return readCloud(path, type);
+    }
+    if (!fs.existsSync(path)) {
+      return;
+    }
     NAME = path;
     let _data = Xlsx.parse(path);
-    for (let table of _data)
-        assemblyData(table, table.name);
+
+    for (let table of _data) {
+      assemblyData(table, table.name);
+    }
 };
 
 // 序列化数据

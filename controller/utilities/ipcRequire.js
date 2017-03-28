@@ -18,7 +18,7 @@ ipc.on("executeInfo", (event, param) => {
     }
 });
 
-function saveWebPage(data,ov,uiCtrl,out) {
+function saveWebPage(data, ov, uiCtrl, out) {
     ipc.send(COMMAND, {
         tacticBlock: "saveWebPage",
         _param : {

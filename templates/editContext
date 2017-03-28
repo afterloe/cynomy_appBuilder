@@ -68,8 +68,17 @@
 
     <!-- Button UICtrl -->
     <button ng-switch-when="Button-UICtrl" class="btn btn-default" data-ctrl-id="{{ctrl.id}}"
-            ondrop="bindServer(event, this)" ng-click="showAttribute(ctrl)">{{ctrl.label}}
+            ondrop="bindServer(event, this)" ng-dbclick="showAttribute(ctrl)" ng-click="postAbsence()">{{ctrl.label}}
     </button>
+
+    <!-- Text AreaCtrl -->
+    <textarea ng-switch-when="Button-TextArea" class="form-control" data-ctrl-id="{{ctrl.id}}"
+      ondrop="bindServer(event, this)" ng-model="reason" ng-click="showAttribute(ctrl)" rows="5">
+    </textarea>
+
+    <!-- Text Field -->
+    <input ng-switch-when="Button-TextField" type="text" class="form-control" data-ctrl-id="{{ctrl.id}}"
+      ondrop="bindServer(event, this)" ng-model="name" ng-click="showAttribute(ctrl)" placeholder={{ctrl.label}} />
 
     <!-- Table UICtrl -->
     <div ng-switch-when="Table-UICtrl" data-ctrl-id="{{ctrl.id}}" ondrop="bindServer(event, this)"

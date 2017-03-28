@@ -1,5 +1,5 @@
 /**
- * Created by afterloe on 2016/8/3.
+ * Created by afterloe on 2017/3/27.
  *
  * @mail afterloeliu@jwis.cn
  * @version 1.0.0
@@ -114,10 +114,11 @@ let drop = (ev, bom) => {
     bom.style["border-color"] = "#BEC0C2";
     try {
         dropObject = JSON.parse(dropObject);
-        if ("ctrl" === dropObject.objectType)
+        if ("ctrl" === dropObject.objectType) {
             dropEmitter.emit("dropCtrlInEditView", dropObject);
-        else
+        } else {
             throw new Error("no such this map");
+        }
     } catch (e) {
         console.log(e);
         return;
@@ -312,10 +313,21 @@ CreatorApp.controller("creatorAppCtrl", ['$scope', '$uibModal', "$dataService", 
 
         // 当模态框关闭的时候传回选择的内容
         modalInstance.result.then(result => {
-            let {path,model} = result;
-            $dataService.buildSource(path); // 通知数据服务 从指定的位置刷新数据
+            let {path, model, type} = result;
+            
+            $dataService.buildSource(path, type); // 通知数据服务 从指定的位置刷新数据
             $dataService.selectModel(model); // 存储选择的数据模型
             $rootScope.$broadcast("readyData");
+
+            if ("xlsx" === type) {
+              $dataService.buildSource(path, type); // 通知数据服务 从指定的位置刷新数据
+              $dataService.selectModel(model); // 存储选择的数据模型
+              $rootScope.$broadcast("readyData");
+            } else if ("cloud" === type) {
+              $dataService.buildSource(path); // 通知数据服务 从指定的位置刷新数据
+              $dataService.selectModel(model); // 存储选择的数据模型
+              $rootScope.$broadcast("readyData");
+            }
         }, () => {
             console.log(`${new Date} -- close modal's window`); // 否则的打印日志
         });
